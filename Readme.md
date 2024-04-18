@@ -12,4 +12,4 @@ This repository contains the R script and data necessary for the completion of t
 
 -   **R Script:** The repository includes an R script file (**`thesis_analysis.R`**) that contains the code for data processing, statistical analysis, visualization, and any other computational tasks required for the thesis.
 
--   **Data:** The necessary datasets for the thesis are provided in the **`data`** directory. These datasets serve as the foundation for the analysis and findings presented in the thesis.
+-   **Data:** The necessary datasets for the thesis are provided in the **`data/storage`** directory. These datasets serve as the foundation for the analysis and findings presented in the thesis.
