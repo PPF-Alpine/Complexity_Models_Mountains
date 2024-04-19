@@ -45,16 +45,19 @@ Saph_litho <- raster(paste0(wd, "DataStorage/Saphre/dtm_lithology_usgs.ecotapest
 
 str(GMBApoly) ## overview of data
 
-numeric_dataconversion <- c("Area..km2.", "Uplift.start..MYR.","CO_slo","CO_VRM", "CO_Dy", "CO_Dx", "CO_Dxx", "CO_Dyy", "CO_Lith_MA","VARCO_Lith" , "MAX_slo", "MAX_VRM", "MAX_Dy", "MAX_Dx", "MAX_Dxx", "MAX_Dyy", "MEA_slo", "MEA_VRM", "MEA_Dy","MEA_Dx", "MEA_Dxx", "MEA_Dyy")
+numeric_dataconversion <- c("Area..km2.", "Uplift.start..MYR.","CO_slo","CO_VRM", "CO_Dy", "CO_Dx", "CO_Dxx", "CO_Dyy", "CO_Lith", "MAX_slo", "MAX_VRM", "MAX_Dy", "MAX_Dx", "MAX_Dxx", "MAX_Dyy", "MEA_slo", "MEA_VRM", "MEA_Dy","MEA_Dx", "MEA_Dxx", "MEA_Dyy")
 
+ 
 
-
-Catagorical_dataconversion <- c("VAR_Lith", "MA_Litho")
+Catagorical_dataconversion <- c("VAR_Lith")
 
 
 GMBApoly[numeric_dataconversion] <- lapply(GMBApoly[numeric_dataconversion], as.numeric)
 
 GMBApoly[Catagorical_dataconversion] <- lapply(GMBApoly[Catagorical_dataconversion], as.factor)
+
+
+
 
 str(GMBApoly) ## overview of data
 
