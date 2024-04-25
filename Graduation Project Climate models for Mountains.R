@@ -76,53 +76,19 @@ temp_rasters <- list(
   Temp_Pres
 )
 
-# Define the nodata value threshold
-nodata_threshold <- -20000
-
-# Function to mask nodata values
-mask_nodata <- function(raster_obj, threshold) {
-  # Create a mask for nodata values
-  nodata_mask <- raster_obj > threshold
-  
-  # Apply the mask
-  masked_raster <- mask(raster_obj, nodata_mask)
-  
-  return(masked_raster)
+# Plot precipitation rasters
+par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
+for (i in 1:length(prec_rasters)) {
+  plot(prec_rasters[[i]], main = names(prec_rasters)[i])
 }
 
-# Apply the mask to each raster in the list
-masked_temp_rasters <- lapply(temp_rasters, mask_nodata, threshold = nodata_threshold)
-
-# Print the masked rasters
-print(masked_temp_rasters)
-
-
-# Define the nodata value
-nodata_value <- -32767
-
-# Function to mask nodata values
-mask_nodata <- function(raster_obj, nodata_val) {
-  # Create a mask for nodata values
-  nodata_mask <- raster_obj != nodata_val
-  
-  # Apply the mask
-  masked_raster <- mask(raster_obj, nodata_mask)
-  
-  return(masked_raster)
+# Plot temperature rasters
+par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
+for (i in 1:length(temp_rasters)) {
+  plot(temp_rasters[[i]], main = names(temp_rasters)[i])
 }
 
-# Apply the mask to each raster in the list
-masked_temp_rasters <- lapply(temp_rasters, mask_nodata, nodata_val = nodata_value)
 
-# Print the masked rasters
-print(masked_temp_rasters)
-
-# Plot each raster in a loop
-for (i in 1:length(masked_temp_rasters)) {
-  plot(masked_temp_rasters[[i]],
-       main = names(masked_temp_rasters)[i],
-       col = terrain.colors(10))
-}
 
 # 2.0 data type fixing ----------------------------------------------------------------------------------------------------------------------------------
 
