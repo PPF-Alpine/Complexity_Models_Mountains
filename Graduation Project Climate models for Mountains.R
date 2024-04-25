@@ -1,22 +1,13 @@
 # 0 setup ------------------------------------------------------------------------------------------------------------------------------------------
 
 rm(list = ls()) #full reset
-rm(list = grep("^Temp_|^Prec_", ls(), value = TRUE))
 
-#install.packages("dplyr") # installing packages
-#install.packages( c( "dplyr", "ggplot2", "plyr" ) )
+rm(Ama_dx)
 
-## general 
-library("tidyverse")    #activating the package for running code for it.
-library("plyr")
-library("ReacTran")
-library("fields")
-library("animation")
-## project specific
-library("terra") #for working with rasters
-library("sf") #for working with rasters
-library("raster") #for working with rasters
-library("factoextra")  # For PCA visualization
+rm(list = "^Temp_|^Prec_tester", ls(), value = TRUE)
+
+source("C:/Users/repap5991/Downloads/Data/R/Rdocs/libraries.R") #load libraries 
+
 
 wd <- ("C:/Users/repap5991/Downloads/Data/R/Rdocs/")
 setwd(wd) #setting the working directory
@@ -42,7 +33,7 @@ Saph_litho <- raster(paste0(wd, "DataStorage/Saphre/dtm_lithology_usgs.ecotapest
 
 Prec_CCSM_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_CCSM4_BIO_12.tif")) #BIO 12 is the annual precipitation amount kg m-2, scale 0.1
 Prec_CNRM_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_CNRM-CM5_BIO_12.tif")) #Accumulated precipitation amount over 1 year
-Prec_FGOA_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_FGOALS-g2_BIO_12.tif")) # in the past LGM 21000 YR
+Prec_FGOA_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_FGOALS-g2_BIO_12.tif")) # in the past LGM 21000 BP (before 1950)
 Prec_IPSL_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_IPSL-CM5A-LR_BIO_12.tif")) 
 Prec_MIRO_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_MIROC-ESM_BIO_12.tif")) 
 Prec_MPIE_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMIP_MPI-ESM-P_BIO_12.tif")) 
@@ -61,6 +52,77 @@ Temp_MRIC_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMI
 
 Temp_Pres <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Present/CHELSA_bio1_1981-2010_V.2.1.tif")) #BIO 01 is the mean annual temperature °C, scale 0.1, offset, -273.15 Accumulated Temperature amount over 1 year in the Present 1981 - 2010.
 
+# Organize precipitation rasters into a list
+prec_rasters <- list(
+  Prec_CCSM_Past,
+  Prec_CNRM_Past,
+  Prec_FGOA_Past,
+  Prec_IPSL_Past,
+  Prec_MIRO_Past,
+  Prec_MPIE_Past,
+  Prec_MRIC_Past,
+  Prec_Pres
+)
+
+# Organize temperature rasters into a list
+temp_rasters <- list(
+  Temp_CCSM_Past,
+  Temp_CNRM_Past,
+  Temp_FGOA_Past,
+  Temp_IPSL_Past,
+  Temp_MIRO_Past,
+  Temp_MPIE_Past,
+  Temp_MRIC_Past,
+  Temp_Pres
+)
+
+# Define the nodata value threshold
+nodata_threshold <- -20000
+
+# Function to mask nodata values
+mask_nodata <- function(raster_obj, threshold) {
+  # Create a mask for nodata values
+  nodata_mask <- raster_obj > threshold
+  
+  # Apply the mask
+  masked_raster <- mask(raster_obj, nodata_mask)
+  
+  return(masked_raster)
+}
+
+# Apply the mask to each raster in the list
+masked_temp_rasters <- lapply(temp_rasters, mask_nodata, threshold = nodata_threshold)
+
+# Print the masked rasters
+print(masked_temp_rasters)
+
+
+# Define the nodata value
+nodata_value <- -32767
+
+# Function to mask nodata values
+mask_nodata <- function(raster_obj, nodata_val) {
+  # Create a mask for nodata values
+  nodata_mask <- raster_obj != nodata_val
+  
+  # Apply the mask
+  masked_raster <- mask(raster_obj, nodata_mask)
+  
+  return(masked_raster)
+}
+
+# Apply the mask to each raster in the list
+masked_temp_rasters <- lapply(temp_rasters, mask_nodata, nodata_val = nodata_value)
+
+# Print the masked rasters
+print(masked_temp_rasters)
+
+# Plot each raster in a loop
+for (i in 1:length(masked_temp_rasters)) {
+  plot(masked_temp_rasters[[i]],
+       main = names(masked_temp_rasters)[i],
+       col = terrain.colors(10))
+}
 
 # 2.0 data type fixing ----------------------------------------------------------------------------------------------------------------------------------
 
@@ -84,7 +146,22 @@ GMBApoly[Catagorical_data] <- lapply(GMBApoly[Catagorical_data], as.factor) #set
 
 ## 2.3 CHELSA data  ----------------------------------------------------------------------------------------------------------------------------------
 
+fun <- function(x) { x / 10 }
+CEl <- function(x) { x - 273.15 }
 
+
+Prec_CCSM_Past_rescale <- calc(Prec_CCSM_Past, fun)
+
+Temp_CCSM_Past_scale <- calc(Temp_CCSM_Past, fun)
+Temp_CCSM_Past_scale_CEL <- calc(Temp_CCSM_Past_scale, CEl)
+
+
+plot(masked_temp_rasters)
+plot(Temp_CCSM_Past_scale_CEL)
+
+
+plot(Prec_CCSM_Past_rescale)
+plot(Prec_CCSM_Past)
 
 # 3.0 Basic statistics and overview-----------------------------------------------------------------------------------------------------------------------
 
@@ -162,7 +239,7 @@ plot_histograms_base <- function(datasets, title) {
 plot_histograms_base(precipitation_datasets, "Precipitation")
 
 # Plot temperature histograms using base R hist function
-plot_histograms_base(temperature_datasets, "Temperature")
+plot_histograms_base(masked_temp_rasters, "Temperature")
 
 
 for (dataset_name in names(precipitation_datasets)) {
