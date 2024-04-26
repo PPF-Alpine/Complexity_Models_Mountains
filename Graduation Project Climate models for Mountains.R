@@ -113,7 +113,7 @@ GMBApoly[Catagorical_data] <- lapply(GMBApoly[Catagorical_data], as.factor) #set
 ## 2.3 CHELSA data  -------------------------------------------------------------------------------------------------------
 
 
-
+#lets see if this works
 
 
 # 3.0 Basic statistics and overview-----------------------------------------------------------------------------------------------------------------------
