@@ -112,8 +112,28 @@ GMBApoly[Catagorical_data] <- lapply(GMBApoly[Catagorical_data], as.factor) #set
 
 ## 2.3 CHELSA data  -------------------------------------------------------------------------------------------------------
 
+Temp_CCSM_Past[Temp_CCSM_Past < -10000] | Temp_CCSM_Past > 30000 <- NA
+Temp_CNRM_Past[Temp_CNRM_Past < -10000] | Temp_CNRM_Past > 30000 <- NA
+Temp_FGOA_Past[Temp_FGOA_Past < -10000] | Temp_FGOA_Past > 30000 <- NA
+Temp_IPSL_Past[Temp_IPSL_Past < -10000] | Temp_IPSL_Past > 30000 <- NA
+Temp_MIRO_Past[Temp_MIRO_Past < -10000] | Temp_MIRO_Past > 30000 <- NA
+Temp_MPIE_Past[Temp_MPIE_Past < -10000] | Temp_MPIE_Past > 30000 <- NA
+Temp_MRIC_Past[Temp_MRIC_Past < -10000] | Temp_MRIC_Past > 30000 <- NA
 
-#lets see if this works
+Prec_CCSM_Past[Temp_CCSM_Past < -10000] <- NA
+Prec_CNRM_Past[Prec_CNRM_Past < -10000] <- NA
+Prec_FGOA_Past[Prec_FGOA_Past < -10000] <- NA
+Prec_IPSL_Past[Prec_IPSL_Past < -10000] <- NA
+Prec_MIRO_Past[Prec_MIRO_Past < -10000] <- NA
+Prec_MPIE_Past[Prec_MPIE_Past < -10000] <- NA
+Prec_MRIC_Past[Prec_MRIC_Past < -10000] <- NA
+
+
+
+plot(Temp_CNRM_Past)
+
+hist(Temp_CCSM_Past)
+
 
 
 # 3.0 Basic statistics and overview-----------------------------------------------------------------------------------------------------------------------
