@@ -52,44 +52,6 @@ Temp_MRIC_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMI
 
 Temp_Pres <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Present/CHELSA_bio1_1981-2010_V.2.1.tif")) #BIO 01 is the mean annual temperature °C, scale 0.1, offset, -273.15 Accumulated Temperature amount over 1 year in the Present 1981 - 2010.
 
-# Organize precipitation rasters into a list
-prec_rasters <- list(
-  Prec_CCSM_Past,
-  Prec_CNRM_Past,
-  Prec_FGOA_Past,
-  Prec_IPSL_Past,
-  Prec_MIRO_Past,
-  Prec_MPIE_Past,
-  Prec_MRIC_Past,
-  Prec_Pres
-)
-
-# Organize temperature rasters into a list
-temp_rasters <- list(
-  Temp_CCSM_Past,
-  Temp_CNRM_Past,
-  Temp_FGOA_Past,
-  Temp_IPSL_Past,
-  Temp_MIRO_Past,
-  Temp_MPIE_Past,
-  Temp_MRIC_Past,
-  Temp_Pres
-)
-
-# Plot precipitation rasters
-par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
-for (i in 1:length(prec_rasters)) {
-  plot(prec_rasters[[i]], main = names(prec_rasters)[i])
-}
-
-# Plot temperature rasters
-par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
-for (i in 1:length(temp_rasters)) {
-  plot(temp_rasters[[i]], main = names(temp_rasters)[i])
-}
-
-
-
 # 2.0 data type fixing -----------------------------------------------------------------------------------------------------
 
 ## 2.1 GMBApoly  ----------------------------------------------------------------------------------------------------------------------------------
@@ -106,21 +68,22 @@ Catagorical_data <- c(2, 20, 21, 22, 24)
 GMBApoly[Catagorical_data] <- lapply(GMBApoly[Catagorical_data], as.factor) #set variables as factor
 
 
-
+range(Temp_CCSM_Past)
+range(Temp_CNRM_Past)
 
 ## 2.2                ----------------------------------------------------------------------------------------------------------------------------------
 
 ## 2.3 CHELSA data  -------------------------------------------------------------------------------------------------------
 
-Temp_CCSM_Past[Temp_CCSM_Past < -10000] | Temp_CCSM_Past > 30000 <- NA
-Temp_CNRM_Past[Temp_CNRM_Past < -10000] | Temp_CNRM_Past > 30000 <- NA
-Temp_FGOA_Past[Temp_FGOA_Past < -10000] | Temp_FGOA_Past > 30000 <- NA
-Temp_IPSL_Past[Temp_IPSL_Past < -10000] | Temp_IPSL_Past > 30000 <- NA
-Temp_MIRO_Past[Temp_MIRO_Past < -10000] | Temp_MIRO_Past > 30000 <- NA
-Temp_MPIE_Past[Temp_MPIE_Past < -10000] | Temp_MPIE_Past > 30000 <- NA
-Temp_MRIC_Past[Temp_MRIC_Past < -10000] | Temp_MRIC_Past > 30000 <- NA
+Temp_CCSM_Past[Temp_CCSM_Past < -10000] <- NA
+Temp_CNRM_Past[Temp_CNRM_Past < -10000] <- NA
+Temp_FGOA_Past[Temp_FGOA_Past < -10000] <- NA
+Temp_IPSL_Past[Temp_IPSL_Past < -10000] <- NA
+Temp_MIRO_Past[Temp_MIRO_Past < -10000] <- NA
+Temp_MPIE_Past[Temp_MPIE_Past < -10000] <- NA
+Temp_MRIC_Past[Temp_MRIC_Past < -10000] <- NA
 
-Prec_CCSM_Past[Temp_CCSM_Past < -10000] <- NA
+Prec_CCSM_Past[Prec_CCSM_Past < -10000] <- NA
 Prec_CNRM_Past[Prec_CNRM_Past < -10000] <- NA
 Prec_FGOA_Past[Prec_FGOA_Past < -10000] <- NA
 Prec_IPSL_Past[Prec_IPSL_Past < -10000] <- NA
@@ -128,9 +91,26 @@ Prec_MIRO_Past[Prec_MIRO_Past < -10000] <- NA
 Prec_MPIE_Past[Prec_MPIE_Past < -10000] <- NA
 Prec_MRIC_Past[Prec_MRIC_Past < -10000] <- NA
 
+Temp_CCSM_Past[Temp_CCSM_Past >= 32767] <- NA
+Temp_CNRM_Past[Temp_CNRM_Past >= 32767] <- NA
+Temp_FGOA_Past[Temp_FGOA_Past >= 32767] <- NA
+Temp_IPSL_Past[Temp_IPSL_Past >= 32767] <- NA
+Temp_MIRO_Past[Temp_MIRO_Past >= 32767] <- NA
+Temp_MPIE_Past[Temp_MPIE_Past >= 32767] <- NA
+Temp_MRIC_Past[Temp_MRIC_Past >= 32767] <- NA
+
+Prec_CCSM_Past[Prec_CCSM_Past >= 32767] <- NA
+Prec_CNRM_Past[Prec_CNRM_Past >= 32767] <- NA
+Prec_FGOA_Past[Prec_FGOA_Past >= 32767] <- NA
+Prec_IPSL_Past[Prec_IPSL_Past >= 32767] <- NA
+Prec_MIRO_Past[Prec_MIRO_Past >= 32767] <- NA
+Prec_MPIE_Past[Prec_MPIE_Past >= 32767] <- NA
+Prec_MRIC_Past[Prec_MRIC_Past >= 32767] <- NA
 
 
-plot(Temp_CNRM_Past)
+
+plot(Temp_CCSM_Past)
+plot(Prec_CCSM_Past)
 
 hist(Temp_CCSM_Past)
 
@@ -219,6 +199,22 @@ for (dataset_name in names(precipitation_datasets)) {
   dataset <- get(precipitation_datasets[[dataset_name]])
   print(summary(dataset))
 }
+
+
+# Plot precipitation rasters
+par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
+for (i in 1:length(precipitation_datasets)) {
+  plot(precipitation_datasets[[i]], main = names(precipitation_datasets)[i])
+}
+
+# Plot temperature rasters
+par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
+for (i in 1:length(temperature_datasets)) {
+  plot(temperature_datasets[[i]], main = names(temperature_datasets)[i])
+}
+
+
+
 
 
 ## 3.2  Plot histograms of GMBApoly data--------------------------------------------------------------------------------------------------------------------------
