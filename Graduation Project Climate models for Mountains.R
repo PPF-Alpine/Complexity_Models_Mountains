@@ -42,7 +42,7 @@ Prec_MRIC_Past <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Past/CHELSA_PMI
 Prec_Pres <- raster(paste0(wd, "DataStorage/Chelsa/Prec Bio Present/CHELSA_bio12_1981-2010_V.2.1.tif")) #BIO 12 is the annual precipitation amount kg m-2, scale 0.1 Accumulated precipitation amount over 1 year in the Present 1981 - 2010
 
 
-Temp_CCSM_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_CCSM4_BIO_01.tif")) #BIO 01 is the mean annual temperature °C, scale 0.1, -273.15 offset
+Temp_CCSM_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_CCSM4_BIO_01.tif")) #BIO 01 is the mean annual temperature B0C, scale 0.1, -273.15 offset
 Temp_CNRM_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_CNRM-CM5_BIO_01.tif")) #Accumulated precipitation amount over 1 year
 Temp_FGOA_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_FGOALS-g2_BIO_01.tif")) # in the past LGM 21000 YR
 Temp_IPSL_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_IPSL-CM5A-LR_BIO_01.tif"))
@@ -50,7 +50,7 @@ Temp_MIRO_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMI
 Temp_MPIE_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_MPI-ESM-P_BIO_01.tif"))
 Temp_MRIC_Past <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Past/CHELSA_PMIP_MRI-CGCM3_BIO_01.tif"))
 
-Temp_Pres <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Present/CHELSA_bio1_1981-2010_V.2.1.tif")) #BIO 01 is the mean annual temperature °C, scale 0.1, offset, -273.15 Accumulated Temperature amount over 1 year in the Present 1981 - 2010.
+Temp_Pres <- raster(paste0(wd, "DataStorage/Chelsa/Temp Bio Present/CHELSA_bio1_1981-2010_V.2.1.tif")) #BIO 01 is the mean annual temperature B0C, scale 0.1, offset, -273.15 Accumulated Temperature amount over 1 year in the Present 1981 - 2010.
 
 # 2.0 data type fixing -----------------------------------------------------------------------------------------------------
 
