@@ -6,10 +6,10 @@ rm(Ama_dx)
 
 rm(list = "^Temp_|^Prec_tester", ls(), value = TRUE)
 
-source("C:/Users/repap5991/Downloads/Data/R/Rdocs/libraries.R") #load libraries 
+source("C:/Users/repap5991/OneDrive - University of Bergen/Data/R/Rdocs/Tester.R") #load libraries 
 
 
-wd <- ("C:/Users/repap5991/Downloads/Data/R/Rdocs/")
+wd <- ("C:/Users/repap5991/OneDrive - University of Bergen/Data/R/Rdocs/Graduation Project")
 setwd(wd) #setting the working directory
 
 # 1.0 loading data -------------------------------------------------------------------------------------------------------------------------------------
