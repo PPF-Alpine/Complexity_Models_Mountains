@@ -9,7 +9,7 @@ rm(list = "^Temp_|^Prec_tester", ls(), value = TRUE)
 source("C:/Users/repap5991/OneDrive - University of Bergen/Data/R/Rdocs/Tester.R") #load libraries 
 
 
-wd <- ("C:/Users/repap5991/OneDrive - University of Bergen/Data/R/Rdocs/Graduation Project")
+wd <- ("C:/Users/repap5991/OneDrive - University of Bergen/Data/R/Rdocs/")
 setwd(wd) #setting the working directory
 
 # 1.0 loading data -------------------------------------------------------------------------------------------------------------------------------------
@@ -75,37 +75,23 @@ range(Temp_CNRM_Past)
 
 ## 2.3 CHELSA data  -------------------------------------------------------------------------------------------------------
 
-Temp_CCSM_Past[Temp_CCSM_Past < -10000] <- NA
-Temp_CNRM_Past[Temp_CNRM_Past < -10000] <- NA
-Temp_FGOA_Past[Temp_FGOA_Past < -10000] <- NA
-Temp_IPSL_Past[Temp_IPSL_Past < -10000] <- NA
-Temp_MIRO_Past[Temp_MIRO_Past < -10000] <- NA
-Temp_MPIE_Past[Temp_MPIE_Past < -10000] <- NA
-Temp_MRIC_Past[Temp_MRIC_Past < -10000] <- NA
+# Define a list of temperature and precipitation raster objects
+temperature_rasters <- list(
+  Temp_CCSM_Past, Temp_CNRM_Past, Temp_FGOA_Past, Temp_IPSL_Past,
+  Temp_MIRO_Past, Temp_MPIE_Past, Temp_MRIC_Past
+)
 
-Prec_CCSM_Past[Prec_CCSM_Past < -10000] <- NA
-Prec_CNRM_Past[Prec_CNRM_Past < -10000] <- NA
-Prec_FGOA_Past[Prec_FGOA_Past < -10000] <- NA
-Prec_IPSL_Past[Prec_IPSL_Past < -10000] <- NA
-Prec_MIRO_Past[Prec_MIRO_Past < -10000] <- NA
-Prec_MPIE_Past[Prec_MPIE_Past < -10000] <- NA
-Prec_MRIC_Past[Prec_MRIC_Past < -10000] <- NA
+precipitation_rasters <- list(
+  Prec_CCSM_Past, Prec_CNRM_Past, Prec_FGOA_Past, Prec_IPSL_Past,
+  Prec_MIRO_Past, Prec_MPIE_Past, Prec_MRIC_Past
+)
 
-Temp_CCSM_Past[Temp_CCSM_Past >= 32767] <- NA
-Temp_CNRM_Past[Temp_CNRM_Past >= 32767] <- NA
-Temp_FGOA_Past[Temp_FGOA_Past >= 32767] <- NA
-Temp_IPSL_Past[Temp_IPSL_Past >= 32767] <- NA
-Temp_MIRO_Past[Temp_MIRO_Past >= 32767] <- NA
-Temp_MPIE_Past[Temp_MPIE_Past >= 32767] <- NA
-Temp_MRIC_Past[Temp_MRIC_Past >= 32767] <- NA
-
-Prec_CCSM_Past[Prec_CCSM_Past >= 32767] <- NA
-Prec_CNRM_Past[Prec_CNRM_Past >= 32767] <- NA
-Prec_FGOA_Past[Prec_FGOA_Past >= 32767] <- NA
-Prec_IPSL_Past[Prec_IPSL_Past >= 32767] <- NA
-Prec_MIRO_Past[Prec_MIRO_Past >= 32767] <- NA
-Prec_MPIE_Past[Prec_MPIE_Past >= 32767] <- NA
-Prec_MRIC_Past[Prec_MRIC_Past >= 32767] <- NA
+# Loop through the temperature and precipitation raster lists
+for (raster_list in list(temperature_rasters, precipitation_rasters)) {
+  for (raster in raster_list) {
+    raster[raster < -10000 | raster >= 32767] <- NA
+  }
+}
 
 # 3.0 Basic statistics and overview-----------------------------------------------------------------------------------------------------------------------
 
