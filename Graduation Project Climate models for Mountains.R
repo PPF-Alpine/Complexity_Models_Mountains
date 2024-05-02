@@ -107,15 +107,6 @@ Prec_MIRO_Past[Prec_MIRO_Past >= 32767] <- NA
 Prec_MPIE_Past[Prec_MPIE_Past >= 32767] <- NA
 Prec_MRIC_Past[Prec_MRIC_Past >= 32767] <- NA
 
-
-
-plot(Temp_CCSM_Past)
-plot(Prec_CCSM_Past)
-
-hist(Temp_CCSM_Past)
-
-
-
 # 3.0 Basic statistics and overview-----------------------------------------------------------------------------------------------------------------------
 
 ## 3.1 Set up a multi-panel plot for original data--------------------------------------------------------
@@ -154,7 +145,7 @@ precipitation_datasets <- list(
   MIRO_Past = "Prec_MIRO_Past",
   MPIE_Past = "Prec_MPIE_Past",
   MRIC_Past = "Prec_MRIC_Past",
-  Pres = "Prec_Pres"
+  Prec_Pres = "Prec_Pres"
 )
 
 # Create a list of temperature raster data sets
@@ -166,12 +157,12 @@ temperature_datasets <- list(
   MIRO_Past = "Temp_MIRO_Past",
   MPIE_Past = "Temp_MPIE_Past",
   MRIC_Past = "Temp_MRIC_Past",
-  Pres = "Temp_Pres"
+  Temp_Pres = "Temp_Pres"
 )
 
 # Function to plot histograms using base R hist function
 plot_histograms_base <- function(datasets, title) {
-  par(mfrow=c(5, 2), mar=c(3,3,1,1))
+  par(mfrow=c(4, 2), mar=c(3,3,1,1))
   
   for (i in seq_along(datasets)) {
     dataset <- datasets[[i]]
@@ -184,15 +175,18 @@ plot_histograms_base <- function(datasets, title) {
     raster_values <- raster_values[!is.na(raster_values) & is.finite(raster_values)]
     
     # Plot histogram using base R hist function
-    hist(raster_values, col = hist_colors_chel[i], main = paste("Histogram of", title, "-", dataset), xlab = "Value", ylab = "Frequency")
+    hist(raster_values, col = hist_colors_chel[i], main = paste(dataset), xlab = "Value", ylab = "Frequency")
   }
 }
 
 # Plot precipitation histograms using base R hist function
-plot_histograms_base(precipitation_datasets, "Precipitation")
+plot_histograms_base(precipitation_datasets)
 
 # Plot temperature histograms using base R hist function
-plot_histograms_base(masked_temp_rasters, "Temperature")
+plot_histograms_base(temperature_datasets)
+
+
+
 
 
 for (dataset_name in names(precipitation_datasets)) {
@@ -202,22 +196,42 @@ for (dataset_name in names(precipitation_datasets)) {
 
 
 # Plot precipitation rasters
-par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
+par(mfrow=c(4, 2))  # Set up a 2x4 plotting layout
 for (i in 1:length(precipitation_datasets)) {
   plot(precipitation_datasets[[i]], main = names(precipitation_datasets)[i])
 }
 
 # Plot temperature rasters
-par(mfrow=c(2, 4))  # Set up a 2x4 plotting layout
+par(mfrow=c(4, 2))  # Set up a 2x4 plotting layout
 for (i in 1:length(temperature_datasets)) {
   plot(temperature_datasets[[i]], main = names(temperature_datasets)[i])
 }
 
+par(mfrow=c(4, 2))  # Set up a 2x4 plotting layout
+
+plot(Prec_CCSM_Past)
+plot(Prec_CNRM_Past)
+plot(Prec_FGOA_Past)
+plot(Prec_IPSL_Past)
+plot(Prec_MIRO_Past)
+plot(Prec_MPIE_Past)
+plot(Prec_MRIC_Past)
+plot(Prec_Pres)
 
 
+par(mfrow=c(4, 2))  # Set up a 2x4 plotting layout
 
 
-## 3.2  Plot histograms of GMBApoly data--------------------------------------------------------------------------------------------------------------------------
+plot(Temp_CCSM_Past)
+plot(Temp_CNRM_Past)
+plot(Temp_FGOA_Past)
+plot(Temp_IPSL_Past)
+plot(Temp_MIRO_Past)
+plot(Temp_MPIE_Past)
+plot(Temp_MRIC_Past)
+plot(Temp_Pres)
+
+## 3.Prec_CCSM_Past## 3.2  Plot histograms of GMBApoly data--------------------------------------------------------------------------------------------------------------------------
 
 
 print(names(GMBApoly)[variablesHis])
