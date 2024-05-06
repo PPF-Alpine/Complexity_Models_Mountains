@@ -2,7 +2,7 @@
 
 rm(list = ls()) #full reset
 
-rm(Ama_dx)
+rm(dataset)
 
 rm(list = "^Temp_|^Prec_tester", ls(), value = TRUE)
 
@@ -19,15 +19,15 @@ GMBApoly <- st_read(paste0(wd, "DataStorage/ArcGIs Data/GMBA_Level4_ExportTable_
 
 ## 1.2 orginal geomorp variables   -----------------------------------------------------------------------------------------------------------------
 
-Ama_dx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif")) #Original datasets
-Ama_dxx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dxx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-Ama_dy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-Ama_dyy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dyy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-Ama_slope <- raster(paste0(wd, "DataStorage/Amatulli/dtm_slope_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-Ama_vrm <- raster(paste0(wd, "DataStorage/Amatulli/dtm_vrm_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-DEM <- raster(paste0(wd, "DataStorage/DEM/Chelsa V2/dem_latlong.sdat"))
-Ham_Landfrom <- raster(paste0(wd, "DataStorage/NewHammond/World Ecological Facets L.tif"))
-Saph_litho <- raster(paste0(wd, "DataStorage/Saphre/dtm_lithology_usgs.ecotapestry_c_250m_s0..0cm_2014_v1.0.tif"))
+#Ama_dx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif")) #Original datasets
+#Ama_dxx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dxx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+#Ama_dy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+#Ama_dyy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dyy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+#Ama_slope <- raster(paste0(wd, "DataStorage/Amatulli/dtm_slope_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+#Ama_vrm <- raster(paste0(wd, "DataStorage/Amatulli/dtm_vrm_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+#DEM <- raster(paste0(wd, "DataStorage/DEM/Chelsa V2/dem_latlong.sdat"))
+#Ham_Landfrom <- raster(paste0(wd, "DataStorage/NewHammond/World Ecological Facets L.tif"))
+#Saph_litho <- raster(paste0(wd, "DataStorage/Saphre/dtm_lithology_usgs.ecotapestry_c_250m_s0..0cm_2014_v1.0.tif"))
 
 ## 1.3 chelsa climatic variables   -----------------------------------------------------------------------------------------------------------------
 
@@ -67,9 +67,6 @@ GMBApoly[numeric_Data] <- lapply(GMBApoly[numeric_Data], as.numeric) #set variab
 Catagorical_data <- c(2, 20, 21, 22, 24)
 GMBApoly[Catagorical_data] <- lapply(GMBApoly[Catagorical_data], as.factor) #set variables as factor
 
-
-range(Temp_CCSM_Past)
-range(Temp_CNRM_Past)
 
 ## 2.2                ----------------------------------------------------------------------------------------------------------------------------------
 
