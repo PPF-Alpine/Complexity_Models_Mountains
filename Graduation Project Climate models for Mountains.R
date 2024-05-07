@@ -19,15 +19,15 @@ GMBApoly <- st_read(paste0(wd, "DataStorage/ArcGIs Data/GMBA_Level4_ExportTable_
 
 ## 1.2 orginal geomorp variables   -----------------------------------------------------------------------------------------------------------------
 
-#Ama_dx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif")) #Original datasets
-#Ama_dxx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dxx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-#Ama_dy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-#Ama_dyy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dyy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-#Ama_slope <- raster(paste0(wd, "DataStorage/Amatulli/dtm_slope_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-#Ama_vrm <- raster(paste0(wd, "DataStorage/Amatulli/dtm_vrm_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
-#DEM <- raster(paste0(wd, "DataStorage/DEM/Chelsa V2/dem_latlong.sdat"))
-#Ham_Landfrom <- raster(paste0(wd, "DataStorage/NewHammond/World Ecological Facets L.tif"))
-#Saph_litho <- raster(paste0(wd, "DataStorage/Saphre/dtm_lithology_usgs.ecotapestry_c_250m_s0..0cm_2014_v1.0.tif"))
+Ama_dx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif")) #Original datasets
+Ama_dxx <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dxx_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+Ama_dy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+Ama_dyy <- raster(paste0(wd, "DataStorage/Amatulli/dtm_dyy_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+Ama_slope <- raster(paste0(wd, "DataStorage/Amatulli/dtm_slope_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+Ama_vrm <- raster(paste0(wd, "DataStorage/Amatulli/dtm_vrm_merit.dem_m_250m_s0..0cm_2018_v1.0.tif"))
+DEM <- raster(paste0(wd, "DataStorage/DEM/Chelsa V2/dem_latlong.sdat"))
+Ham_Landfrom <- raster(paste0(wd, "DataStorage/NewHammond/World Ecological Facets L.tif"))
+Saph_litho <- raster(paste0(wd, "DataStorage/Saphre/dtm_lithology_usgs.ecotapestry_c_250m_s0..0cm_2014_v1.0.tif"))
 
 ## 1.3 chelsa climatic variables   -----------------------------------------------------------------------------------------------------------------
 
@@ -97,11 +97,12 @@ for (raster_list in list(temperature_rasters, precipitation_rasters)) {
 # Define colors for histograms
 hist_colors <- c("#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", 
                  "#8c564b", "#e377c2", "#7f7f7f", "#17becf")
-# Create a list of original raster data sets
+# Create a list of original raster data sets with variable descriptions
 raster_datasets <- list(
-  Ama_dx = "dx", Ama_dxx = "dxx", Ama_dy = "dy", Ama_dyy = "dyy", Ama_slope = "slope",
-  Ama_vrm = "vrm", Ham_Landfrom = "Landforms", Saph_litho = "LithoClass", DEM = "DEM"
+  Ama_dx = "East-West Slope", Ama_dxx = "East-West Curvature Rate", Ama_dy = "North-South Slope", Ama_dyy = "North-South Curvature Rate", Ama_slope = "Terrain Slope",
+  Ama_vrm = "Terrain Ruggedness Measure", Ham_Landform = "Landform Classification", Saph_litho = "Lithology Classification", DEM = "Elevation Data (m)"
 )
+
 # Set up the plotting layout
 par(mfrow=c(5, 2), mar=c(3,3,1,1))
 
@@ -110,8 +111,24 @@ for (i in seq_along(raster_datasets)) {
   dataset <- raster_datasets[[i]]
   raster_data <- get(names(raster_datasets)[i])
   
-  hist(raster_data, col = hist_colors[i], main = paste("Histogram of", dataset), xlab = "", ylab = "Frequency")
+  # Extract variable description for x-axis
+  x_axis_label <- switch(dataset,
+                         "East-West Slope" = "East-West Slope",
+                         "East-West Curvature Rate" = "East-West Curvature Rate",
+                         "North-South Slope" = "North-South Slope",
+                         "North-South Curvature Rate" = "North-South Curvature Rate",
+                         "Terrain Slope" = "Terrain Slope",
+                         "Terrain Ruggedness Measure" = "Terrain Ruggedness Measure",
+                         "Landform Classification" = "Landform Classification",
+                         "Lithology Classification" = "Lithology Classification",
+                         "Elevation Data (m)" = "Elevation Data (m)"
+  )
+  
+  hist(raster_data, col = hist_colors[i], main = paste(dataset), xlab = x_axis_label, ylab = "Frequency")
 }
+
+
+
 
 ## 3.2 Set up a multi-panel plot for CHELSA data--------------------------------------------------------
 
