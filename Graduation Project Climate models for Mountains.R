@@ -68,7 +68,19 @@ Catagorical_data <- c(2, 20, 21, 22, 24)
 GMBApoly[Catagorical_data] <- lapply(GMBApoly[Catagorical_data], as.factor) #set variables as factor
 
 
-## 2.2                ----------------------------------------------------------------------------------------------------------------------------------
+## 2.2 ama tulli variables fix ----------------------------------------------------------------------------------------------------------------------------------
+
+Ama_vrm[Ama_vrm == 65535] <- NA
+Ama_dx[Ama_dx == -32768] <- NA
+Ama_dxx[Ama_dxx == -32768] <- NA
+Ama_dy[Ama_dy == -32768] <- NA
+Ama_dyy[Ama_dyy == -32768] <- NA
+Ama_slope[Ama_slope == -32768] <- NA
+
+Ama_vrm[Ama_vrm > 5000] <- NA
+
+hist(Ama_vrm)
+
 
 ## 2.3 CHELSA data  -------------------------------------------------------------------------------------------------------
 
@@ -86,7 +98,7 @@ precipitation_rasters <- list(
 # Loop through the temperature and precipitation raster lists
 for (raster_list in list(temperature_rasters, precipitation_rasters)) {
   for (raster in raster_list) {
-    raster[raster < -10000 | raster >= 32767] <- NA
+    raster[raster < -10000 | raster = 32767] <- NA
   }
 }
 
